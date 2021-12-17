@@ -1,0 +1,12 @@
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "name": "Raphael Mendes Carreiro",
+  "email": "raphaelcarreiro@hotmail.com"
+}
+
+
+###
+
+GET http://localhost:3000/users/20
