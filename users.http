@@ -1,12 +1,26 @@
-POST http://localhost:3000/users
-Content-Type: application/json
-
-{
-  "name": "Raphael Mendes Carreiro",
-  "email": "raphaelcarreiro@hotmail.com"
-}
+GET http://localhost:3000/users
 
 
 ###
 
 GET http://localhost:3000/users/20
+
+
+###
+
+PUT http://localhost:3000/users/23
+Content-Type: application/json
+
+{
+  "name": "Carreiro 33333"
+}
+
+###
+
+
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "name": "Carreiro 3"
+}

@@ -18,12 +18,17 @@ export class UsersService {
   }
 
   async show(id: number) {
-    console.log(id);
-    return await this.userRepository.findOne({
-      where: {
-        id,
-      },
-    });
+    return await this.findOne(+id);
+  }
+
+  async findOne(id: number): Promise<User> {
+    const user = await this.userRepository.findOne(id);
+
+    if (!user) {
+      throw new Error('Usuário não encontrado');
+    }
+
+    return user;
   }
 
   async store(payload: CreateUserDto) {
@@ -32,5 +37,13 @@ export class UsersService {
     await this.userRepository.save(user);
 
     return user;
+  }
+
+  async update(id: number, userDto: CreateUserDto) {
+    await this.findOne(+id);
+
+    await this.userRepository.update(id, userDto);
+
+    return await this.userRepository.findOne(+id);
   }
 }
