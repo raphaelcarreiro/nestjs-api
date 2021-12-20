@@ -1,13 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 
 import { User } from './user.entity';
+import { IUsersService } from './users.service.interface';
 
 @Injectable()
-export class UsersService {
+export class UsersService implements IUsersService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
@@ -25,7 +26,7 @@ export class UsersService {
     const user = await this.userRepository.findOne(id);
 
     if (!user) {
-      throw new Error('Usuário não encontrado');
+      throw new HttpException('Usuário não encontrado', HttpStatus.NOT_FOUND);
     }
 
     return user;
@@ -45,5 +46,10 @@ export class UsersService {
     await this.userRepository.update(id, userDto);
 
     return await this.userRepository.findOne(+id);
+  }
+
+  async destroy(id: number) {
+    await this.findOne(+id);
+    await this.userRepository.delete(id);
   }
 }

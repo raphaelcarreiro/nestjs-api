@@ -24,3 +24,8 @@ Content-Type: application/json
 {
   "name": "Carreiro 3"
 }
+
+
+###
+
+DELETE http://localhost:3000/users/27

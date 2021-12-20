@@ -1,10 +1,13 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Inject, Param, Post, Put } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UsersService } from './users.service';
+import { IUsersService } from './users.service.interface';
 
 @Controller('/users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    @Inject('IUsersService')
+    private readonly usersService: IUsersService,
+  ) {}
 
   @Get()
   index() {
@@ -30,5 +33,11 @@ export class UsersController {
   @Put(':id')
   update(@Param('id') id: number, @Body() updateUserDto: CreateUserDto) {
     return this.usersService.update(id, updateUserDto);
+  }
+
+  @Delete(':id')
+  @HttpCode(204)
+  async destroy(@Param('id') id: number) {
+    await this.usersService.destroy(+id);
   }
 }
