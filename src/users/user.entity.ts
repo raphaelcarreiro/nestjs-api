@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('users')
@@ -11,6 +12,7 @@ export class User {
   @Column()
   email: string;
 
-  @CreateDateColumn()
+  @Exclude()
+  @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;
 }

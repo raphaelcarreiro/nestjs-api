@@ -22,7 +22,7 @@ POST http://localhost:3000/users
 Content-Type: application/json
 
 {
-  "name": "Carreiro 3"
+  "name": "Camila Mendes Carreiro Cury"
 }
 
 

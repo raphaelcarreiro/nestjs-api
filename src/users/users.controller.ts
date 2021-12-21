@@ -1,7 +1,23 @@
-import { Body, Controller, Delete, Get, HttpCode, Inject, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  ClassSerializerInterceptor,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  Inject,
+  Param,
+  Post,
+  Put,
+  UseInterceptors,
+  ValidationPipe,
+} from '@nestjs/common';
+import { ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
+import { UserResponse } from 'src/api-doc/user.response';
 import { CreateUserDto } from './dto/create-user.dto';
 import { IUsersService } from './users.service.interface';
 
+@UseInterceptors(ClassSerializerInterceptor)
 @Controller('/users')
 export class UsersController {
   constructor(
@@ -14,6 +30,9 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
+  @ApiOkResponse({
+    type: UserResponse,
+  })
   @Get(':id')
   show(
     @Param('id')
@@ -22,9 +41,12 @@ export class UsersController {
     return this.usersService.show(id);
   }
 
+  @ApiCreatedResponse({
+    type: UserResponse,
+  })
   @Post()
   create(
-    @Body()
+    @Body(new ValidationPipe({ errorHttpStatusCode: 422 }))
     createOrderDto: CreateUserDto,
   ) {
     return this.usersService.store(createOrderDto);
